@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alex Popov</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0d0d0d;
+      --surface:  #151515;
+      --border:   #2a2a2a;
+      --text:     #e8e3db;
+      --muted:    #7a7570;
+      --accent:   #c9a84c;
+      --accent2:  #3a6ea5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      gap: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-text { max-width: 560px; }
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    h1 span { color: var(--accent); }
+    .hero-intro {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0d0d0d;
+      font-weight: 500;
+    }
+    .btn-primary:hover { background: #e0bc6a; }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── HERO STATS ── */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      border-bottom: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      line-height: 1.15;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-body p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+    }
+    .about-body p strong { color: var(--text); font-weight: 500; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.8rem 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      transition: border-color 0.2s;
+    }
+    .exp-card:hover { border-color: var(--accent); }
+    .exp-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px;
+    }
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .exp-company {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin: 0.2rem 0;
+    }
+    .exp-desc { color: var(--muted); font-size: 0.92rem; margin-top: 0.5rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      section { padding: 4rem 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">AP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">Beyond Work</a></li>
+      <li><a href="mailto:popov.a@northeastern.edu">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero" style="max-width:1100px; margin:0 auto;">
+    <div class="hero-text">
+      <p class="eyebrow">Boston, MA · Graduating Senior · Northeastern University</p>
+      <h1>Alex<br><span>Popov.</span></h1>
+      <p class="hero-intro">
+        Business Analytics & Finance major with a Data Science minor. Got into analytics through sports stats in high school — been bridging the gap between hard data and human decisions ever since. Three co-ops. Boston-based — by choice.
+      </p>
+      <div class="hero-cta">
+        <a href="about.html" class="btn btn-primary">Beyond Work →</a>
+        <a href="mailto:popov.al@northeastern.edu" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Co-ops Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Years in Boston</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7+</div>
+        <div class="stat-label">Countries Visited</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">NEU</div>
+        <div class="stat-label">Class of 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">About Me</p>
+    <h2>Analyst by training,<br>generalist by nature.</h2>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>
+          I'm a graduating senior at <strong>Northeastern University</strong> studying Business Analytics and Finance with a minor in Data Science. My path into analytics started in high school through sports — tracking stats, looking for patterns, trying to understand why teams won or lost beyond what the box score showed. That early curiosity turned into a discipline, and eventually a career direction.
+        </p>
+        <p>
+          What drives me is the gap between data and decisions. Numbers alone don't change anything — someone has to translate what the data is saying into something leadership can act on. That's the skill I've been building across three co-ops: at <strong>AMETEK</strong> as a Sales Analyst, at <strong>Bevi</strong> as a Supply Chain Analyst, and most recently at <strong>WHOOP</strong> as a Product Analyst. In every role, the technical work only mattered when it was communicated clearly to the people making the calls.
+        </p>
+        <p>
+          I've lived in Boston for five years and plan to stay. When I'm not working with data you'll find me on a golf course, a hockey rink, or a mountain somewhere.
+        </p>
+        <div class="tag-cloud">
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Excel</span>
+          <span class="tag">D3.js</span>
+          <span class="tag">Data Visualization</span>
+          <span class="tag">Product Analytics</span>
+          <span class="tag">Finance</span>
+        </div>
+      </div>
+
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80"
+          alt="Boston skyline"
+          style="width:100%; border-radius:6px; border:1px solid var(--border); filter: brightness(0.8) sepia(0.2);"
+        />
+        <p style="font-size:0.75rem; color:var(--muted); margin-top:0.5rem; text-align:right;">Boston, MA — home since 2020</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Experience</p>
+    <h2>Where I've worked.</h2>
+    <div class="exp-list">
+
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div>
+          <div class="exp-role">Product Analyst Co-op</div>
+          <div class="exp-company">WHOOP — Boston, MA</div>
+          <p class="exp-desc">Worked within the product and growth teams analyzing user engagement data to inform feature prioritization and product roadmap decisions. Built dashboards and ran funnel analyses to surface behavioral trends across the WHOOP member base.</p>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div>
+          <div class="exp-role">Supply Chain Analyst Co-op</div>
+          <div class="exp-company">Bevi — Boston, MA</div>
+          <p class="exp-desc">Supported supply chain operations at a high-growth smart water startup. Developed inventory forecasting models and worked closely with the operations team to improve vendor data accuracy and reduce stockout risk across the hardware product line.</p>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-dot"></div>
+        <div>
+          <div class="exp-role">Sales Analyst Co-op</div>
+          <div class="exp-company">AMETEK — Berwyn, PA</div>
+          <p class="exp-desc">Analyzed sales pipeline data and contributed to revenue reporting for a global electronic instruments company. Built Excel models to track deal progression and provided insights to the sales leadership team to support quarterly planning.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2>Let's connect.</h2>
+    <p style="color:var(--muted); max-width:480px; margin-bottom:2rem;">
+      Whether it's a job opportunity, a project, or just a conversation — feel free to reach out. I'm always open to connecting with people who care about data and building things that matter.
+    </p>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+      <a href="mailto:popov.a@northeastern.edu" class="btn btn-primary">Email Me</a>
+      <a href="https://linkedin.com/in/alexpopov" class="btn btn-outline" target="_blank">LinkedIn</a>
+      <a href="https://github.com/alexpopov" class="btn btn-outline" target="_blank">GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-name">Alex Popov</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">Beyond Work</a>
+      <a href="mailto:popov.a@northeastern.edu">Email</a>
+    </div>
+  </footer>
+
+</body>
+</html>
